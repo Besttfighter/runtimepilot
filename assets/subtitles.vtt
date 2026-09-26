@@ -1,0 +1,221 @@
+WEBVTT
+
+1
+00:00:00.050 --> 00:00:07.550
+When you deploy an LLM workflow into production, the most frequent point of failure is not model hallucination.
+
+2
+00:00:07.550 --> 00:00:12.537
+It is HTTP status code 429: Too Many Requests.
+
+3
+00:00:13.000 --> 00:00:23.212
+Whether you are calling OpenAI, Anthropic, or an internal model gateway, every commercial provider enforces strict token per minute and request per minute quotas.
+
+4
+00:00:23.212 --> 00:00:27.662
+During normal traffic, your application stays well below these ceilings.
+
+5
+00:00:27.662 --> 00:00:36.275
+But the moment a scheduled batch job kicks off, a marketing campaign launches, or inbound webhooks surge, your concurrency spikes.
+
+6
+00:00:36.275 --> 00:00:43.500
+Your primary provider cuts off traffic and starts rejecting requests with 429 Too Many Requests.
+
+7
+00:00:43.950 --> 00:00:50.987
+In tutorials and hobbyist codebases, the standard reaction is to wrap provider calls in a blind retry loop.
+
+8
+00:00:50.987 --> 00:01:00.587
+The developer writes a basic while loop with exponential backoff: sleep for one second, then two, then four, then eight, and try again.
+
+9
+00:01:01.052 --> 00:01:07.477
+In distributed systems, this blind retry loop is an anti-pattern known as the Thundering Herd.
+
+10
+00:01:07.477 --> 00:01:14.952
+When a provider returns a 429, it means the upstream server or your quota tier is already saturated.
+
+11
+00:01:14.952 --> 00:01:29.127
+If fifty concurrent workers all receive a 429 and all begin retrying on the same exponential schedule, they repeatedly hammer the exhausted gateway the exact millisecond their backoff timers expire.
+
+12
+00:01:29.578 --> 00:01:38.590
+Instead of allowing the provider's token bucket to replenish, the retry storm guarantees that every subsequent request gets rejected as well.
+
+13
+00:01:38.590 --> 00:01:48.790
+Meanwhile, your incoming HTTP connections remain held open, worker memory exhausts, and your entire application pipeline grinds to a halt.
+
+14
+00:01:49.248 --> 00:01:59.848
+To build resilient automation pipelines that survive provider throttling, we must replace blind retries with a classic distributed systems pattern: the Circuit Breaker.
+
+15
+00:02:00.302 --> 00:02:06.664
+The Circuit Breaker pattern was popularized in microservices architecture to prevent cascading failures.
+
+16
+00:02:06.664 --> 00:02:15.052
+It operates as a three-state finite state machine wrapping every external API call: Closed, Open, and Half-Open.
+
+17
+00:02:15.508 --> 00:02:19.220
+In the Closed state, the circuit breaker operates normally.
+
+18
+00:02:19.220 --> 00:02:24.620
+Every incoming prompt is routed directly to the primary LLM provider.
+
+19
+00:02:24.620 --> 00:02:27.633
+The breaker monitors responses in the background.
+
+20
+00:02:27.633 --> 00:02:32.395
+If a call succeeds, the internal failure counter resets to zero.
+
+21
+00:02:32.850 --> 00:02:40.300
+However, if consecutive calls fail with 429 errors or network timeouts, the failure count increases.
+
+22
+00:02:40.300 --> 00:02:49.362
+Once failures reach a predefined threshold—for example, five consecutive rejections—the circuit breaker trips into the Open state.
+
+23
+00:02:49.832 --> 00:02:55.907
+In the Open state, the circuit breaker protects the system by fast-failing immediately.
+
+24
+00:02:55.907 --> 00:03:01.732
+For the next thirty to sixty seconds, zero outbound requests are sent to that provider.
+
+25
+00:03:01.732 --> 00:03:13.644
+Instead of making network calls that are guaranteed to fail, the breaker immediately raises a CircuitBreakerOpen exception or automatically diverts traffic to an alternate fallback provider.
+
+26
+00:03:13.644 --> 00:03:21.119
+This gives the primary provider's token bucket window the necessary time to fully replenish without interference.
+
+27
+00:03:21.574 --> 00:03:27.424
+After the cooldown period expires, the circuit breaker transitions into the Half-Open state.
+
+28
+00:03:27.424 --> 00:03:34.224
+In this state, the breaker permits a single canary request to pass through to the primary provider.
+
+29
+00:03:34.224 --> 00:03:39.599
+If this trial request succeeds, it confirms that the upstream rate limit has cleared.
+
+30
+00:03:39.599 --> 00:03:44.249
+The circuit breaker resets to Closed and normal traffic resumes.
+
+31
+00:03:44.249 --> 00:03:50.199
+But if the canary request fails, the breaker trips back to Open for another cooldown cycle.
+
+32
+00:03:50.652 --> 00:03:54.114
+Let us examine how to implement this cleanly in Python.
+
+33
+00:03:54.114 --> 00:04:03.377
+Our circuit breaker class tracks the current state, consecutive failure count, failure threshold, cooldown duration, and the timestamp of the last failure.
+
+34
+00:04:03.842 --> 00:04:08.292
+When execute is invoked, the breaker first inspects its state.
+
+35
+00:04:08.292 --> 00:04:14.054
+If the state is Open, it checks whether the current timestamp exceeds the cooldown deadline.
+
+36
+00:04:14.054 --> 00:04:19.854
+If the cooldown has not elapsed, it fast-fails without calling the saturated provider.
+
+37
+00:04:19.854 --> 00:04:25.879
+If the cooldown has passed, it enters Half-Open mode and allows the wrapped function to execute.
+
+38
+00:04:26.344 --> 00:04:34.631
+If the provider execution throws a 429 error or a connection timeout, our exception handler increments the failure counter.
+
+39
+00:04:34.631 --> 00:04:42.881
+If that count hits our threshold, we transition the state to Open, record the timestamp, and log an alert for our observability pipeline.
+
+40
+00:04:43.350 --> 00:04:50.062
+The true power of this architecture emerges when we combine the circuit breaker with a multi-tier cascade router.
+
+41
+00:04:50.062 --> 00:04:56.737
+When the primary provider's circuit breaker trips to Open, our router does not drop the user transaction.
+
+42
+00:04:56.737 --> 00:05:07.937
+Instead, it catches the open breaker exception and instantly cascades the prompt to Tier 2: an intermediate cloud provider or a local Ollama instance running on our own hardware.
+
+43
+00:05:08.396 --> 00:05:15.008
+In production failure injection tests, this architecture delivers a dramatic resilience improvement.
+
+44
+00:05:15.008 --> 00:05:32.846
+When we artificially saturate our primary model with 100 concurrent requests, the first five requests trigger 429s, the circuit breaker trips to Open in under three milliseconds, and the remaining 95 requests bypass the saturated provider completely.
+
+45
+00:05:32.846 --> 00:05:40.446
+They route directly to our backup tier, completing through the secondary provider rather than failing the request immediately.
+
+46
+00:05:40.906 --> 00:05:50.731
+Handling 429 rate limits with circuit breakers and multi-tier cascades is just one requirement of production-oriented AI automation systems.
+
+47
+00:05:51.192 --> 00:06:05.867
+In our full 21-lesson engineering masterclass, Production AI Systems: Engineering Resilient Business Automations in Node.js and Python, we walk through every layer needed to build reliable AI infrastructure.
+
+48
+00:06:05.867 --> 00:06:21.392
+We cover atomic Redis idempotency locks to prevent duplicate charges, schema self-healing with Pydantic and Zod, semantic caching with Redis vector search, asynchronous BullMQ workers, and full OpenTelemetry distributed tracing.
+
+49
+00:06:21.854 --> 00:06:32.691
+You can inspect the complete 21-lesson syllabus and enroll at our special 7-day launch promotional price of ninety-nine euros using the first link in the description.
+
+50
+00:06:33.148 --> 00:06:42.948
+If you want to test our multi-tier cascade router and review our 35-point Production AI Checklist, check out our free open-source GitHub starter kit linked below.
+
+51
+00:06:42.948 --> 00:06:47.110
+You can run the code locally in ten seconds with standard Python.
+
+52
+00:06:47.562 --> 00:06:55.437
+You can also stream Lesson 07 from the course completely free, with no email sign-up required, at our sample lesson link.
+
+53
+00:06:55.904 --> 00:06:59.904
+Stop relying on blind retries and fragile demos.
+
+54
+00:06:59.904 --> 00:07:04.366
+Build resilient systems that stay online when providers fail.
+
+55
+00:07:04.366 --> 00:07:05.516
+Thank you for watching.

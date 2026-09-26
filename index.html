@@ -1,0 +1,1189 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RuntimePilot | Production AI Systems in Node.js & Python</title>
+  <meta name="description" content="Build AI systems that survive production. Practical engineering for resilient AI automations, agents, and LLM systems in Node.js and Python.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-[#06080d] text-slate-100 min-h-screen flex flex-col font-sans selection:bg-cyan-500 selection:text-black">
+
+  <!-- Top Announcement Bar -->
+  <aside aria-label="Course Announcement" class="bg-gradient-to-r from-cyan-950/70 via-slate-900 to-blue-950/70 border-b border-white/5 py-2.5 px-4 text-xs font-mono text-center flex items-center justify-center gap-3">
+    <span class="flex items-center gap-1.5 text-cyan-400 font-semibold">
+      <span class="pulse-dot-cyan"></span>
+      RUNTIMEPILOT
+    </span>
+    <span class="text-slate-500 hidden sm:inline">|</span>
+    <span class="text-slate-200 hidden sm:inline">Production AI Engineering • 21 Lessons • Python + Node.js</span>
+    <span class="text-slate-500 hidden sm:inline">|</span>
+    <a href="#lesson-preview" data-route="lesson-preview" class="text-cyan-400 hover:text-cyan-300 font-semibold underline underline-offset-4">Free Lesson Available →</a>
+  </aside>
+
+  <!-- Navigation -->
+  <header class="sticky top-0 z-50 bg-[#06080d]/92 backdrop-blur-xl border-b border-white/5">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
+      <a href="#home" data-route="home" class="flex items-center gap-3 group text-decoration-none">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/20 group-hover:scale-105 transition-transform">
+          <svg class="w-6 h-6 text-slate-950" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+          </svg>
+        </div>
+        <div>
+          <div class="flex items-center gap-1.5">
+            <span class="font-extrabold text-lg tracking-wider text-white font-mono">RUNTIME<span class="text-cyan-400">PILOT</span></span>
+          </div>
+          <span class="text-[11px] text-slate-400 tracking-widest font-mono uppercase block -mt-0.5">Production AI Engineering</span>
+        </div>
+      </a>
+
+      <nav class="hidden lg:flex items-center gap-7 text-sm font-medium">
+        <a href="#home" data-route="home" class="nav-link">Overview</a>
+        <a href="#story-section" class="nav-link">System Story</a>
+        <a href="#pipeline-section" class="nav-link">Roadmap</a>
+        <a href="#interactive-runtimes" class="nav-link">Interactive Lab</a>
+        <a href="#terminal-section" class="nav-link">Terminal</a>
+        <a href="#lesson-preview" data-route="lesson-preview" class="nav-link flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+          Free Lesson
+        </a>
+        <a href="https://github.com/production-ai-systems/production-ai-starter-kit" target="_blank" rel="noopener" class="nav-link flex items-center gap-1 text-slate-300 hover:text-white">
+          <span>GitHub</span>
+          <svg class="w-3.5 h-3.5 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+        </a>
+        <a href="#pricing" data-route="pricing" class="nav-link">Pricing</a>
+        <a href="#faq" data-route="faq" class="nav-link">FAQ</a>
+      </nav>
+
+      <div class="hidden sm:flex items-center gap-4">
+        <button onclick="openCheckout()" class="btn-primary py-2.5 px-6 text-xs font-mono uppercase tracking-wider">
+          Enroll for €99
+        </button>
+      </div>
+
+      <button id="mobileMenuBtn" class="lg:hidden p-2 text-slate-300 hover:text-white" aria-label="Toggle Navigation Menu">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Mobile Dropdown -->
+    <div id="mobileMenu" class="hidden lg:hidden bg-[#090d16] border-b border-slate-800 px-6 py-5 space-y-4">
+      <a href="#home" data-route="home" class="block text-base text-slate-200 hover:text-cyan-400">Overview</a>
+      <a href="#story-section" class="block text-base text-slate-200 hover:text-cyan-400">System Story</a>
+      <a href="#pipeline-section" class="block text-base text-slate-200 hover:text-cyan-400">Roadmap</a>
+      <a href="#interactive-runtimes" class="block text-base text-slate-200 hover:text-cyan-400">Interactive Lab</a>
+      <a href="#terminal-section" class="block text-base text-slate-200 hover:text-cyan-400">Live Terminal</a>
+      <a href="#lesson-preview" data-route="lesson-preview" class="block text-base text-cyan-400 font-semibold">Free Lesson 07</a>
+      <a href="https://github.com/production-ai-systems/production-ai-starter-kit" target="_blank" rel="noopener" class="block text-base text-slate-200 hover:text-white">GitHub Starter Kit ↗</a>
+      <a href="#pricing" data-route="pricing" class="block text-base text-slate-200 hover:text-cyan-400">Pricing (€99)</a>
+      <a href="#faq" data-route="faq" class="block text-base text-slate-200 hover:text-cyan-400">FAQ</a>
+      <button onclick="openCheckout()" class="w-full btn-primary py-3 text-sm justify-center font-mono mt-3">
+        Enroll for €99
+      </button>
+    </div>
+  </header>
+
+  <main class="flex-grow">
+
+    <!-- VIEW 1: HOME / OVERVIEW -->
+    <section id="view-home" class="view-container">
+
+      <!-- 1. HERO SECTION -->
+      <div class="relative overflow-hidden pt-16 pb-24 border-b border-white/5">
+        <div class="ambient-glow-cyan top-[-150px] left-1/2 -translate-x-1/2 opacity-25"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-10 text-center">
+          
+          <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan-950/50 border border-cyan-500/35 text-cyan-400 text-xs font-mono mb-8">
+            <span class="pulse-dot"></span>
+            RUNTIMEPILOT — PRODUCTION AI ENGINEERING
+          </div>
+
+          <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white max-w-5xl mx-auto leading-[1.12] mb-6">
+            Build AI Systems <br class="hidden sm:inline">
+            <span class="gradient-text-cyan">That Survive Production.</span>
+          </h1>
+
+          <p class="text-lg sm:text-xl text-slate-200 max-w-3xl mx-auto mb-10 leading-relaxed font-normal">
+            Practical engineering for resilient AI automations, agents, and LLM systems. Wrap probabilistic models in deterministic architecture with multi-tier cascades, circuit breakers, AST schema self-healing, and sandboxed execution in Node.js and Python.
+          </p>
+
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
+            <button onclick="openCheckout()" class="btn-primary py-4 px-8 text-base font-semibold w-full sm:w-auto justify-center">
+              Enroll for €99
+            </button>
+            <a href="#lesson-preview" data-route="lesson-preview" class="btn-secondary py-4 px-8 text-base font-semibold w-full sm:w-auto justify-center">
+              <span class="text-cyan-400">▶</span> Watch Free Lesson
+            </a>
+          </div>
+
+          <div class="text-center mb-14">
+            <a href="https://github.com/production-ai-systems/production-ai-starter-kit" target="_blank" rel="noopener" class="text-sm font-mono text-slate-300 hover:text-cyan-400 underline underline-offset-4 inline-flex items-center gap-2">
+              <span>Explore GitHub Starter Kit (Python 3.10+ / Apache 2.0)</span>
+              <span>→</span>
+            </a>
+          </div>
+
+          <!-- Telemetry Stats HUD Grid -->
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto text-left mb-16">
+            <div class="telemetry-badge">
+              <span class="text-xs text-slate-400 block uppercase font-mono">Curriculum Scope</span>
+              <span class="text-xl font-bold text-white font-mono">21 Lessons</span>
+              <span class="text-xs text-cyan-400 block mt-0.5">Python + Node.js</span>
+            </div>
+            <div class="telemetry-badge">
+              <span class="text-xs text-slate-400 block uppercase font-mono">Core Modules</span>
+              <span class="text-xl font-bold text-white font-mono">7 Modules</span>
+              <span class="text-xs text-emerald-400 block mt-0.5">Ingress to Chaos Testing</span>
+            </div>
+            <div class="telemetry-badge">
+              <span class="text-xs text-slate-400 block uppercase font-mono">Automated Tests</span>
+              <span class="text-xl font-bold text-white font-mono">500-Request Test</span>
+              <span class="text-xs text-cyan-400 block mt-0.5">50-Way Concurrency</span>
+            </div>
+            <div class="telemetry-badge">
+              <span class="text-xs text-slate-400 block uppercase font-mono">Commercial License</span>
+              <span class="text-xl font-bold text-white font-mono">Single-Dev</span>
+              <span class="text-xs text-amber-400 block mt-0.5">Internal & Client Pattern Use</span>
+            </div>
+          </div>
+
+          <!-- HERO RUNTIME SYSTEM VISUALIZATION -->
+          <div class="max-w-5xl mx-auto text-left">
+            
+            <!-- Conceptual Flow Ribbon -->
+            <div class="mb-3 px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-800 flex flex-wrap items-center justify-between text-xs font-mono gap-2">
+              <span class="text-slate-400">ENGINEERING PATTERN:</span>
+              <div class="flex flex-wrap items-center gap-1.5 text-slate-300">
+                <span class="text-cyan-400 font-semibold">REQUEST</span>
+                <span class="text-slate-600">→</span>
+                <span class="text-slate-200">ROUTER</span>
+                <span class="text-slate-600">→</span>
+                <span class="text-amber-400">MODEL A</span>
+                <span class="text-slate-600">→</span>
+                <span class="text-rose-400 font-bold">429</span>
+                <span class="text-slate-600">→</span>
+                <span class="text-rose-300 font-semibold">CIRCUIT BREAKER OPEN</span>
+                <span class="text-slate-600">→</span>
+                <span class="text-emerald-400">MODEL B</span>
+                <span class="text-slate-600">→</span>
+                <span class="text-emerald-300 font-bold">SUCCESS</span>
+              </div>
+            </div>
+
+            <!-- Canvas Simulator Container -->
+            <div class="hero-simulation-wrap">
+              <div class="hero-sim-hud">
+                <div class="flex items-center gap-3">
+                  <span class="flex items-center gap-1.5 text-emerald-400 font-semibold">
+                    <span class="pulse-dot"></span> LIVE RUNTIME SIMULATION
+                  </span>
+                  <span class="text-slate-600">|</span>
+                  <span class="text-slate-300">INGRESS: <span id="heroIngressRate" class="text-cyan-400 font-bold">120 req/s</span></span>
+                  <span class="text-slate-600 hidden sm:inline">|</span>
+                  <span class="text-slate-300 hidden sm:inline">STATE: <span id="heroStateIndicator" class="text-emerald-400 font-bold">CLOSED</span></span>
+                </div>
+
+                <div class="flex items-center gap-2">
+                  <span class="text-slate-400 text-xs font-mono">SCENARIO:</span>
+                  <button id="heroScenarioA" class="sim-pill active" onclick="setHeroScenario('healthy')">A: Healthy</button>
+                  <button id="heroScenarioB" class="sim-pill" onclick="setHeroScenario('429-burst')">B: 429 Storm</button>
+                  <button id="heroScenarioC" class="sim-pill" onclick="setHeroScenario('cascade')">C: Cascade Fallback</button>
+                </div>
+              </div>
+
+              <!-- SVG Topology Simulator (Mathematically Locked Curves) -->
+              <div class="relative w-full overflow-hidden bg-[#070b13]">
+                <svg id="heroTopologySvg" viewBox="0 0 1000 360" class="w-full h-auto block select-none" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Interactive Cascade Router and Circuit Breaker Topology Simulator">
+                  <defs>
+                    <pattern id="heroGridPattern" width="40" height="40" patternUnits="userSpaceOnUse">
+                      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+                    </pattern>
+                    <filter id="heroGlowCyan" x="-30%" y="-30%" width="160%" height="160%">
+                      <feGaussianBlur stdDeviation="4" result="blur" />
+                      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                    </filter>
+                    <filter id="heroGlowEmerald" x="-30%" y="-30%" width="160%" height="160%">
+                      <feGaussianBlur stdDeviation="4" result="blur" />
+                      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                    </filter>
+                    <filter id="heroGlowRose" x="-30%" y="-30%" width="160%" height="160%">
+                      <feGaussianBlur stdDeviation="4" result="blur" />
+                      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                    </filter>
+                  </defs>
+                  <rect width="1000" height="360" fill="url(#heroGridPattern)" />
+
+                  <!-- Circuit Geometric Paths -->
+                  <path id="p-ing-router" d="M 160,180 L 230,180" class="circuit-path circuit-path-active" />
+                  <path id="p-router-t1" d="M 370,180 C 440,180 440,75 510,75" class="circuit-path circuit-path-active" />
+                  <path id="p-router-brk" d="M 370,180 L 510,180" class="circuit-path" stroke-dasharray="4,4" />
+                  <path id="p-router-t2" d="M 370,180 C 440,180 440,285 510,285" class="circuit-path" />
+                  <path id="p-brk-t2" d="M 600,215 L 600,250" class="circuit-path" stroke-dasharray="3,3" />
+                  <path id="p-t1-out" d="M 690,75 C 750,75 750,180 810,180" class="circuit-path circuit-path-active" />
+                  <path id="p-t2-out" d="M 690,285 C 750,285 750,180 810,180" class="circuit-path" />
+
+                  <!-- Circuit Topology Nodes -->
+                  <!-- 01 Ingress Gateway -->
+                  <g id="node-ingress" transform="translate(20, 145)">
+                    <rect width="140" height="70" class="node-box" />
+                    <text x="14" y="25" fill="#38bdf8" font-family="ui-monospace, monospace" font-size="11" font-weight="700">GATEWAY 01</text>
+                    <text x="14" y="44" fill="#f8fafc" font-family="-apple-system, sans-serif" font-size="14" font-weight="700">Request Ingress</text>
+                    <text x="14" y="59" fill="#94a3b8" font-family="ui-monospace, monospace" font-size="11">HMAC-SHA256</text>
+                    <circle cx="124" cy="22" r="4" fill="#38bdf8" />
+                  </g>
+
+                  <!-- 02 Cascade Router -->
+                  <g id="node-router" transform="translate(230, 145)">
+                    <rect width="140" height="70" class="node-box" style="stroke: #00f2fe; fill: rgba(6,182,212,0.08);" />
+                    <text x="14" y="25" fill="#00f2fe" font-family="ui-monospace, monospace" font-size="11" font-weight="700">ENGINE 02</text>
+                    <text x="14" y="44" fill="#f8fafc" font-family="-apple-system, sans-serif" font-size="14" font-weight="700">Cascade Router</text>
+                    <text x="14" y="59" fill="#94a3b8" font-family="ui-monospace, monospace" font-size="11">Budget Watcher</text>
+                    <circle cx="124" cy="22" r="4" fill="#00f2fe" />
+                  </g>
+
+                  <!-- 03 Model A (Primary) -->
+                  <g id="node-tier1" transform="translate(510, 40)">
+                    <rect id="node-tier1-box" width="180" height="70" class="node-box" style="stroke: #10b981; fill: rgba(16,185,129,0.06);" />
+                    <text x="14" y="25" fill="#38bdf8" font-family="ui-monospace, monospace" font-size="11" font-weight="700">PRIMARY PROVIDER</text>
+                    <text x="14" y="44" fill="#f8fafc" font-family="-apple-system, sans-serif" font-size="14" font-weight="700">Model A (Ollama 8B)</text>
+                    <text id="node-tier1-sub" x="14" y="59" fill="#10b981" font-family="ui-monospace, monospace" font-size="11">200 OK (380ms)</text>
+                    <circle id="node-tier1-dot" cx="164" cy="22" r="4" fill="#10b981" />
+                  </g>
+
+                  <!-- 04 Circuit Breaker -->
+                  <g id="node-breaker" transform="translate(510, 145)">
+                    <rect id="node-breaker-box" width="180" height="70" class="node-box" style="stroke: rgba(255,255,255,0.15);" />
+                    <text x="14" y="25" fill="#fbbf24" font-family="ui-monospace, monospace" font-size="11" font-weight="700">RESILIENCE GUARD</text>
+                    <text x="14" y="44" fill="#f8fafc" font-family="-apple-system, sans-serif" font-size="14" font-weight="700">Circuit Breaker</text>
+                    <text id="node-breaker-sub" x="14" y="59" fill="#10b981" font-family="ui-monospace, monospace" font-size="11">STATE: CLOSED</text>
+                    <circle id="node-breaker-dot" cx="164" cy="22" r="4" fill="#10b981" />
+                  </g>
+
+                  <!-- 05 Model B (Fallback) -->
+                  <g id="node-tier2" transform="translate(510, 250)">
+                    <rect id="node-tier2-box" width="180" height="70" class="node-box" style="stroke: rgba(255,255,255,0.15);" />
+                    <text x="14" y="25" fill="#94a3b8" font-family="ui-monospace, monospace" font-size="11" font-weight="700">FALLBACK PROVIDER</text>
+                    <text x="14" y="44" fill="#f8fafc" font-family="-apple-system, sans-serif" font-size="14" font-weight="700">Model B (GPT-4o)</text>
+                    <text id="node-tier2-sub" x="14" y="59" fill="#64748b" font-family="ui-monospace, monospace" font-size="11">STANDBY (HOT)</text>
+                    <circle id="node-tier2-dot" cx="164" cy="22" r="4" fill="#64748b" />
+                  </g>
+
+                  <!-- 06 Validated Output -->
+                  <g id="node-output" transform="translate(810, 145)">
+                    <rect width="160" height="70" class="node-box" style="stroke: #10b981; fill: rgba(16,185,129,0.08);" />
+                    <text x="14" y="25" fill="#10b981" font-family="ui-monospace, monospace" font-size="11" font-weight="700">EMISSION 03</text>
+                    <text x="14" y="44" fill="#f8fafc" font-family="-apple-system, sans-serif" font-size="14" font-weight="700">Validated Output</text>
+                    <text x="14" y="59" fill="#94a3b8" font-family="ui-monospace, monospace" font-size="11">JSON Schema 200 OK</text>
+                    <circle cx="144" cy="22" r="4" fill="#10b981" />
+                  </g>
+
+                  <!-- Dynamic SVG Packet Layer -->
+                  <g id="heroPacketGroup"></g>
+                </svg>
+              </div>
+
+              <!-- Bottom Telemetry Bar -->
+              <div class="px-5 py-3.5 bg-[#080c14] border-t border-white/5 flex flex-wrap items-center justify-between text-xs font-mono text-slate-300 gap-3">
+                <div class="flex items-center gap-4">
+                  <span>ACTIVE ROUTE: <span id="heroActiveRoute" class="text-cyan-300 font-bold">Ingress → Router → Model A (Primary)</span></span>
+                  <span class="text-slate-600">|</span>
+                  <span>LATENCY: <span id="heroLatencyVal" class="text-emerald-400 font-bold">74ms</span></span>
+                </div>
+                <div class="flex items-center gap-3 text-slate-400">
+                  <span>Fast-Fail Protection: <span class="text-cyan-400">Active</span></span>
+                  <span class="text-slate-600">•</span>
+                  <span>Output: <span class="text-emerald-400">Validated JSON Schema</span></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="section-divider"></div>
+
+      <!-- 2. SCROLL-DRIVEN ARCHITECTURAL SYSTEM STORY -->
+      <div id="story-section" class="py-24 border-b border-white/5 bg-[#090d16]/60 relative overflow-hidden">
+        <div class="ambient-glow-emerald top-1/2 right-[-200px] -translate-y-1/2 opacity-15"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
+          <div class="text-center max-w-3xl mx-auto mb-16">
+            <h2 class="text-xs font-mono uppercase tracking-widest text-cyan-400 mb-2">Architectural Evolution</h2>
+            <h3 class="text-3xl sm:text-4xl font-bold text-white">From Fragile Prototype to Battle-Hardened Engine</h3>
+            <p class="text-slate-300 text-base mt-3">
+              Trace the five deterministic engineering stages required to run probabilistic AI reliably in mission-critical environments.
+            </p>
+          </div>
+
+          <!-- Stage Grid Navigation -->
+          <div class="grid grid-cols-1 md:grid-cols-5 gap-3 max-w-6xl mx-auto mb-10">
+            <div class="story-stage-card active" onclick="selectStoryStage(0)" data-stage="0">
+              <div class="story-step-indicator bg-rose-500/10 text-rose-400 border border-rose-500/20 mb-3">01</div>
+              <h4 class="text-sm font-bold text-white mb-1">The Naive Prototype</h4>
+              <p class="text-xs text-slate-300 leading-relaxed">Direct API calls, unchecked JSON.parse, blind trust.</p>
+            </div>
+
+            <div class="story-stage-card" onclick="selectStoryStage(1)" data-stage="1">
+              <div class="story-step-indicator bg-amber-500/10 text-amber-400 border border-amber-500/20 mb-3">02</div>
+              <h4 class="text-sm font-bold text-white mb-1">Failure Modes</h4>
+              <p class="text-xs text-slate-300 leading-relaxed">429 thundering herds, markdown fences, double-billing.</p>
+            </div>
+
+            <div class="story-stage-card" onclick="selectStoryStage(2)" data-stage="2">
+              <div class="story-step-indicator bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 mb-3">03</div>
+              <h4 class="text-sm font-bold text-white mb-1">Resilience Layer</h4>
+              <p class="text-xs text-slate-300 leading-relaxed">Circuit breakers, AST repair, SQLite WAL idempotency.</p>
+            </div>
+
+            <div class="story-stage-card" onclick="selectStoryStage(3)" data-stage="3">
+              <div class="story-step-indicator bg-blue-500/10 text-blue-400 border border-blue-500/20 mb-3">04</div>
+              <h4 class="text-sm font-bold text-white mb-1">Observability</h4>
+              <p class="text-xs text-slate-300 leading-relaxed">Distributed OTel spans, latency budgets, DLQ routing.</p>
+            </div>
+
+            <div class="story-stage-card" onclick="selectStoryStage(4)" data-stage="4">
+              <div class="story-step-indicator bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 mb-3">05</div>
+              <h4 class="text-sm font-bold text-white mb-1">Hardened Engine</h4>
+              <p class="text-xs text-slate-300 leading-relaxed">500-request HTTP chaos test with 50-way concurrency, automated fault recovery.</p>
+            </div>
+          </div>
+
+          <!-- Deep Dive Stage Inspector Deck -->
+          <div id="storyInspector" class="glass-panel p-6 sm:p-8 max-w-6xl mx-auto border-cyan-500/30">
+            <!-- Dynamic Content Injected via JS -->
+          </div>
+        </div>
+      </div>
+      <div class="section-divider"></div>
+
+      <!-- 3. INTERACTIVE 7-MODULE ARCHITECTURE ROADMAP -->
+      <div id="pipeline-section" class="py-24 border-b border-white/5 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
+          <div class="text-center max-w-3xl mx-auto mb-16">
+            <h2 class="text-xs font-mono uppercase tracking-widest text-cyan-400 mb-2">Architectural Roadmap</h2>
+            <h3 class="text-3xl sm:text-4xl font-bold text-white">7 Modules. 21 Lessons. Zero Black Boxes.</h3>
+            <p class="text-slate-300 text-base mt-3">
+              Explore the 7 layers of the production runtime. Select any module to inspect the failure mode prevented, the deterministic pattern applied, and the included codebases.
+            </p>
+          </div>
+
+          <!-- Roadmap Track (7 Nodes with Thematic Labels) -->
+          <div class="pipeline-track-wrapper max-w-6xl mx-auto mb-8">
+            <div class="pipeline-track">
+              <div class="pipeline-node active" onclick="selectPipelineModule(0)" data-mod="0">
+                <span class="text-xs text-cyan-400 font-mono block">MOD 01</span>
+                <span class="text-sm font-bold text-white block mt-1">Reliability Foundations</span>
+                <span class="text-[11px] text-slate-400 block mt-0.5">Ingress & Envelopes</span>
+              </div>
+              <div class="pipeline-node" onclick="selectPipelineModule(1)" data-mod="1">
+                <span class="text-xs text-cyan-400 font-mono block">MOD 02</span>
+                <span class="text-sm font-bold text-white block mt-1">Webhook Security</span>
+                <span class="text-[11px] text-slate-400 block mt-0.5">HMAC & Deduplication</span>
+              </div>
+              <div class="pipeline-node" onclick="selectPipelineModule(2)" data-mod="2">
+                <span class="text-xs text-cyan-400 font-mono block">MOD 03</span>
+                <span class="text-sm font-bold text-white block mt-1">Routing & Cascades</span>
+                <span class="text-[11px] text-slate-400 block mt-0.5">Circuit Breakers</span>
+              </div>
+              <div class="pipeline-node" onclick="selectPipelineModule(3)" data-mod="3">
+                <span class="text-xs text-cyan-400 font-mono block">MOD 04</span>
+                <span class="text-sm font-bold text-white block mt-1">Idempotency & Locks</span>
+                <span class="text-[11px] text-slate-400 block mt-0.5">SQLite WAL & Redis</span>
+              </div>
+              <div class="pipeline-node" onclick="selectPipelineModule(4)" data-mod="4">
+                <span class="text-xs text-cyan-400 font-mono block">MOD 05</span>
+                <span class="text-sm font-bold text-white block mt-1">Tool Sandboxing</span>
+                <span class="text-[11px] text-slate-400 block mt-0.5">Subprocess Isolation</span>
+              </div>
+              <div class="pipeline-node" onclick="selectPipelineModule(5)" data-mod="5">
+                <span class="text-xs text-cyan-400 font-mono block">MOD 06</span>
+                <span class="text-xs font-bold text-white block mt-1">Observability & DLQ</span>
+                <span class="text-[11px] text-slate-400 block mt-0.5">OTel Spans & Recovery</span>
+              </div>
+              <div class="pipeline-node" onclick="selectPipelineModule(6)" data-mod="6">
+                <span class="text-xs text-emerald-400 font-mono block">MOD 07</span>
+                <span class="text-sm font-bold text-white block mt-1">Chaos Hardening</span>
+                <span class="text-[11px] text-emerald-300 block mt-0.5">500-Req / Concurrency 50</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dynamic Module Inspector Card -->
+          <div id="pipelineInspectorCard" class="pipeline-inspector max-w-6xl mx-auto">
+            <!-- Dynamically populated via JS -->
+          </div>
+
+          <div class="text-center mt-8">
+            <a href="#course-detail" data-route="course-detail" class="btn-secondary py-3 px-6 text-sm font-mono">
+              Inspect Full 21-Lesson Syllabus Breakdown →
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="section-divider"></div>
+
+      <!-- 4. INTERACTIVE ENGINEERING LAB (CIRCUIT BREAKER & LATENCY SIMULATOR) -->
+      <div id="interactive-runtimes" class="py-24 border-b border-white/5 bg-[#090d16]/50 relative overflow-hidden">
+        <div class="ambient-glow-cyan top-1/2 left-[-200px] -translate-y-1/2 opacity-15"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
+          <div class="text-center max-w-3xl mx-auto mb-16">
+            <h2 class="text-xs font-mono uppercase tracking-widest text-cyan-400 mb-2">Interactive Engineering Sandbox</h2>
+            <h3 class="text-3xl sm:text-4xl font-bold text-white">Test the Architecture Live in Your Browser</h3>
+            <p class="text-slate-300 text-base mt-3">
+              Interact directly with the finite state machines and non-blocking latency cascades taught in Module 01 and Module 03.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+            
+            <!-- WIDGET A: CIRCUIT BREAKER FINITE STATE MACHINE -->
+            <div class="glass-panel p-6 sm:p-8 border-slate-800 flex flex-col justify-between">
+              <div>
+                <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+                  <span class="badge-cyan">MODULE 01 / 03 REFERENCE WIDGET</span>
+                  <span class="text-xs text-slate-400 font-mono">3-STATE FINITE STATE MACHINE</span>
+                </div>
+
+                <h4 class="text-2xl font-bold text-white mb-2">Circuit Breaker Finite State Machine</h4>
+                <p class="text-sm text-slate-300 mb-4 leading-relaxed">
+                  When upstream rate limits saturate, blind exponential backoff hammers exhausted gateways. The circuit breaker intercepts calls, failing fast without calling the saturated provider.
+                </p>
+                <div class="mb-5 px-3 py-1.5 rounded bg-slate-900/90 border border-slate-800 text-[11px] font-mono text-slate-400">
+                  <span class="text-cyan-400 font-semibold">Example configuration:</span> 5-failure threshold, 30s cooldown — configurable per production SLA.
+                </div>
+
+                <!-- State Nodes Display -->
+                <div class="grid grid-cols-3 gap-3 mb-6">
+                  <div id="fsmNodeClosed" class="fsm-state-node state-closed active-state">
+                    <span class="text-sm font-mono font-bold block">CLOSED</span>
+                    <span class="text-xs opacity-80">Traffic Flowing</span>
+                  </div>
+                  <div id="fsmNodeOpen" class="fsm-state-node state-open">
+                    <span class="text-sm font-mono font-bold block">OPEN</span>
+                    <span class="text-xs opacity-80">Fast-Failing</span>
+                  </div>
+                  <div id="fsmNodeHalfOpen" class="fsm-state-node state-half-open">
+                    <span class="text-sm font-mono font-bold block">HALF-OPEN</span>
+                    <span class="text-xs opacity-80">Canary Probe</span>
+                  </div>
+                </div>
+
+                <!-- Telemetry Metrics -->
+                <div class="p-5 rounded-xl bg-slate-900/85 border border-slate-800 space-y-3 mb-6 font-mono text-sm">
+                  <div>
+                    <div class="flex justify-between text-slate-300 mb-1.5">
+                      <span>Consecutive Failures:</span>
+                      <span id="fsmFailureCountText" class="text-white font-bold">0 / 5 (Demo Config)</span>
+                    </div>
+                    <div class="fsm-meter-bar">
+                      <div id="fsmFailureBar" class="fsm-meter-fill bg-rose-500" style="width: 0%;"></div>
+                    </div>
+                  </div>
+
+                  <div class="flex justify-between text-slate-300 pt-2 border-t border-slate-800">
+                    <span>Cooldown Window:</span>
+                    <span id="fsmCooldownText" class="text-amber-400">Idle (30s on trip)</span>
+                  </div>
+
+                  <div class="flex justify-between text-slate-300 pt-1">
+                    <span>Calls Fast-Failed (Saved):</span>
+                    <span id="fsmSavedCallsText" class="text-cyan-400">0 outbound requests</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Interactive Controls -->
+              <div class="space-y-2.5">
+                <div class="grid grid-cols-2 gap-2.5">
+                  <button onclick="fsmTriggerFailure('429')" class="btn-secondary py-3 px-3 text-xs font-mono justify-center text-rose-300 border-rose-500/35 hover:bg-rose-950/30">
+                    ⚡ Inject 429 Failure
+                  </button>
+                  <button onclick="fsmTriggerFailure('timeout')" class="btn-secondary py-3 px-3 text-xs font-mono justify-center text-amber-300 border-amber-500/35 hover:bg-amber-950/30">
+                    ⏱️ Inject Timeout (>400ms)
+                  </button>
+                </div>
+                <div class="grid grid-cols-2 gap-2.5">
+                  <button onclick="fsmFastForwardCooldown()" class="btn-secondary py-2.5 px-3 text-xs font-mono justify-center">
+                    ⏩ Fast-Forward Cooldown
+                  </button>
+                  <button onclick="fsmReset()" class="btn-secondary py-2.5 px-3 text-xs font-mono justify-center text-slate-400">
+                    🔄 Reset Breaker
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- WIDGET B: MODEL ROUTING LATENCY-BUDGET SIMULATOR -->
+            <div class="glass-panel p-6 sm:p-8 border-slate-800 flex flex-col justify-between">
+              <div>
+                <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+                  <span class="badge-cyan">MODULE 03 REFERENCE WIDGET</span>
+                  <span class="text-xs text-slate-400 font-mono">BOUNDED-WAIT CASCADE</span>
+                </div>
+
+                <h4 class="text-2xl font-bold text-white mb-2">Non-Blocking Cascade Router</h4>
+                <p class="text-sm text-slate-300 mb-4 leading-relaxed">
+                  Enforces strict latency budgets per tier using worker pools. When Tier A exceeds its illustrative SLA, the router abandons waiting and cascades to Tier B without blocking execution.
+                </p>
+
+                <!-- Prominent Illustrative Banner -->
+                <div class="mb-4 px-3 py-1.5 rounded bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-mono tracking-wide text-center font-bold">
+                  ILLUSTRATIVE LATENCY BUDGETS — NOT PROVIDER BENCHMARKS
+                </div>
+
+                <!-- Tiers List -->
+                <div class="space-y-3 mb-4 font-mono text-xs">
+                  <div id="tierSlot1" class="tier-slot flex items-center justify-between">
+                    <div>
+                      <span class="text-white font-bold block text-sm">Tier A: Local Model (e.g. Ollama 8B)</span>
+                      <span class="text-xs text-slate-400">Illustrative Budget: 400.0ms • Example Cost: $0.00 / 1M tokens</span>
+                    </div>
+                    <span id="tier1Status" class="text-slate-400 text-xs font-bold">STANDBY</span>
+                  </div>
+
+                  <div id="tierSlot2" class="tier-slot flex items-center justify-between">
+                    <div>
+                      <span class="text-white font-bold block text-sm">Tier B: Cloud Fast Model (e.g. GPT-4o-mini)</span>
+                      <span class="text-xs text-slate-400">Illustrative Budget: 1500.0ms • Example Cost: $0.15 / 1M tokens</span>
+                    </div>
+                    <span id="tier2Status" class="text-slate-400 text-xs font-bold">STANDBY</span>
+                  </div>
+
+                  <div id="tierSlot3" class="tier-slot flex items-center justify-between">
+                    <div>
+                      <span class="text-white font-bold block text-sm">Tier C: Frontier Enterprise Model (e.g. Claude 3.5 Sonnet)</span>
+                      <span class="text-xs text-slate-400">Illustrative Budget: 5000.0ms • Example Cost: $3.00 / 1M tokens</span>
+                    </div>
+                    <span id="tier3Status" class="text-slate-400 text-xs font-bold">STANDBY</span>
+                  </div>
+                </div>
+
+                <p class="text-[11px] text-slate-400 text-center mb-5 font-mono leading-normal">
+                  Example configuration. Actual latency and cost vary by model, provider, tokens, hardware, network and load.
+                </p>
+
+                <!-- Latency Progress Bar -->
+                <div class="mb-4">
+                  <div class="flex justify-between text-sm font-mono text-slate-300 mb-1.5">
+                    <span>Elapsed Latency:</span>
+                    <span id="latencyElapsedText" class="text-cyan-400 font-bold">0.0 ms</span>
+                  </div>
+                  <div class="latency-timeline-track">
+                    <div id="latencyProgressBar" class="latency-timeline-progress"></div>
+                  </div>
+                </div>
+
+                <!-- Simulation Output Card -->
+                <div id="cascadeResultBox" class="p-3.5 rounded-lg bg-slate-900/70 border border-slate-800 text-sm font-mono text-slate-300 min-h-[48px] flex items-center">
+                  <span>Click an illustrative demo scenario below to simulate request routing.</span>
+                </div>
+              </div>
+
+              <!-- Simulation Scenario Buttons -->
+              <div class="space-y-2 mt-4">
+                <button onclick="runCascadeScenario('healthy')" class="w-full btn-secondary py-3 px-3 text-xs font-mono justify-center text-emerald-300 border-emerald-500/35 hover:bg-emerald-950/30">
+                  ▶ Scenario 1: Tier A Healthy (Demonstration: ~82ms)
+                </button>
+                <button onclick="runCascadeScenario('spike')" class="w-full btn-secondary py-3 px-3 text-xs font-mono justify-center text-cyan-300 border-cyan-500/35 hover:bg-cyan-950/30">
+                  ⚡ Scenario 2: Tier A Latency Spike (>400ms) → Cascade to Tier B
+                </button>
+                <button onclick="runCascadeScenario('outage')" class="w-full btn-secondary py-3 px-3 text-xs font-mono justify-center text-amber-300 border-amber-500/35 hover:bg-amber-950/30">
+                  🔥 Scenario 3: Cascading Outage (Tiers A & B Fail) → Tier C Resolved
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="section-divider"></div>
+
+      <!-- 5. GITHUB / LIVE TERMINAL SECTION -->
+      <div id="terminal-section" class="py-24 border-b border-white/5 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
+          <div class="text-center max-w-3xl mx-auto mb-16">
+            <h2 class="text-xs font-mono uppercase tracking-widest text-cyan-400 mb-2">Developer Trust & Verification</h2>
+            <h3 class="text-3xl sm:text-4xl font-bold text-white">Real Test Harnesses, Real Execution Logs</h3>
+            <p class="text-slate-300 text-base mt-3">
+              Every lesson comes with runnable test harnesses in both Python and Node.js. Clone the starter kit and run the demo locally:
+            </p>
+          </div>
+
+          <div class="max-w-5xl mx-auto">
+            <!-- Command Instructions Banner -->
+            <div class="mb-4 p-4 rounded-xl bg-slate-900/80 border border-slate-800 flex flex-wrap items-center justify-between text-xs font-mono gap-3">
+              <div class="flex items-center gap-2 text-slate-300">
+                <span class="text-cyan-400 font-bold">$</span>
+                <code>git clone https://github.com/production-ai-systems/production-ai-starter-kit.git</code>
+              </div>
+              <a href="https://github.com/production-ai-systems/production-ai-starter-kit" target="_blank" rel="noopener" class="text-cyan-400 hover:underline inline-flex items-center gap-1">
+                <span>View on GitHub</span>
+                <span>↗</span>
+              </a>
+            </div>
+
+            <!-- Terminal Component -->
+            <div class="terminal-window">
+              <div class="terminal-header">
+                <div class="flex items-center gap-2">
+                  <div class="w-3 h-3 rounded-full bg-rose-500/80"></div>
+                  <div class="w-3 h-3 rounded-full bg-amber-500/80"></div>
+                  <div class="w-3 h-3 rounded-full bg-emerald-500/80"></div>
+                  <span class="text-xs text-slate-400 ml-2 font-mono hidden sm:inline">runtimepilot@infra-worker: ~/production-ai-starter-kit</span>
+                  <span class="text-xs text-slate-400 ml-2 font-mono sm:hidden">~/starter-kit</span>
+                </div>
+
+                <div class="flex items-center gap-2">
+                  <span id="termTabPy" class="sim-pill active cursor-default">cascade_router_demo.py</span>
+                  <button onclick="runTerminalScript()" class="btn-terminal">
+                    ▶ Run Demo
+                  </button>
+                </div>
+              </div>
+
+              <!-- Terminal Body / Logs Area -->
+              <div id="terminalLogBody" class="terminal-body">
+                <div class="text-slate-400 mb-2"># Production AI Starter Kit — Standalone Bounded-Wait Cascade Router Demo (Python 3.10+)</div>
+                <div class="text-slate-400 mb-4"># Ready. Click "▶ Run Demo" above to execute real test scenarios.</div>
+                <div class="text-slate-200 font-mono"><span class="text-cyan-400">~/production-ai-starter-kit$</span> <span class="animate-pulse">_</span></div>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between text-xs font-mono text-slate-400 mt-3 px-2">
+              <span>Public Starter Kit: Python 3.10+ (<code>concurrent.futures</code>)</span>
+              <a href="commercial_launch/github_starter_kit/cascade_router_demo.py" download="cascade_router_demo.py" class="text-cyan-400 hover:underline">Download cascade_router_demo.py (9.4 KB) ↓</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="section-divider"></div>
+
+      <!-- 6. FREE SAMPLE MASTERCLASS (LESSON 07 PREVIEW) -->
+      <div id="lesson-preview" class="py-24 border-b border-white/5 bg-[#090d16]/70 relative overflow-hidden">
+        <div class="ambient-glow-cyan top-1/3 right-[-200px] opacity-15"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 mb-8 border-b border-white/10">
+            <div>
+              <div class="flex items-center gap-2 mb-1.5">
+                <span class="badge-cyan text-xs">FEATURED MASTERCLASS LESSON</span>
+                <span class="text-xs text-slate-400 font-mono">• LESSON 07 • MODULE 03</span>
+              </div>
+              <h2 class="text-2xl sm:text-4xl font-bold text-white">
+                Dynamic Cost/Latency Model Routing & Cascades
+              </h2>
+              <p class="text-sm text-slate-300 mt-1.5">
+                Bounded-Wait Latency Budgets • Three-State Circuit Breakers • Multi-Tier Fallback Cascades in Python
+              </p>
+            </div>
+
+            <div class="flex items-center gap-3 shrink-0">
+              <button onclick="openCheckout()" class="btn-primary py-2.5 px-5 text-xs font-mono">
+                Enroll for €99
+              </button>
+            </div>
+          </div>
+
+          <!-- Video Player Container -->
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+            <div class="lg:col-span-2 space-y-4">
+              <div class="video-frame-container relative bg-black shadow-2xl border-2 border-cyan-500/40 rounded-2xl overflow-hidden">
+                <video id="mainLessonVideo" class="w-full h-full object-cover" controls playsinline preload="auto" poster="assets/thumbnail.png">
+                  <source src="assets/final_lesson.mp4" type="video/mp4">
+                  <track src="assets/subtitles.vtt" kind="subtitles" srclang="en" label="English" default>
+                  Your browser does not support the video tag.
+                </video>
+                
+                <div class="absolute top-4 left-4 pointer-events-none flex items-center gap-2 bg-slate-950/85 backdrop-blur-md px-3 py-1.5 rounded-lg border border-cyan-500/30 font-mono text-xs">
+                  <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                  <span class="text-cyan-400 font-bold">1080P MASTERCLASS</span>
+                  <span class="text-slate-500">|</span>
+                  <span class="text-white">07:07 DURATION • SYNTHETIC NARRATION WITH SYNCHRONIZED SUBTITLES</span>
+                </div>
+              </div>
+
+              <!-- Quick-Jump Architectural Chapters -->
+              <div class="p-5 rounded-xl bg-slate-900/80 border border-slate-800">
+                <span class="text-xs text-slate-400 font-mono uppercase block mb-3">Jump to Architectural Milestone:</span>
+                <div class="flex flex-wrap gap-2.5">
+                  <button class="chapter-btn" onclick="seekVideo(0)">00:00 Ingress Architecture</button>
+                  <button class="chapter-btn" onclick="seekVideo(105)">01:45 The 429 Herd</button>
+                  <button class="chapter-btn" onclick="seekVideo(200)">03:20 Circuit Breaker FSM</button>
+                  <button class="chapter-btn" onclick="seekVideo(310)">05:10 Cascade Router Code</button>
+                  <button class="chapter-btn" onclick="seekVideo(400)">06:40 100-Req Test Harness</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Deliverables Sidebar -->
+            <div class="lg:col-span-1 space-y-6">
+              <div class="glass-panel p-6 border-slate-800">
+                <h3 class="text-sm font-bold text-white uppercase font-mono tracking-wider mb-4 flex items-center gap-2">
+                  <span>📦</span> Included Artifacts
+                </h3>
+                <div class="space-y-3 text-xs">
+                  <a href="commercial_launch/github_starter_kit/cascade_router_demo.py" download="cascade_router_demo.py" class="flex items-center justify-between p-3.5 rounded-lg bg-slate-900 hover:bg-slate-800/80 border border-slate-800 transition-colors">
+                    <div class="flex items-center gap-2.5">
+                      <span class="text-cyan-400 font-bold font-mono">PY</span>
+                      <span class="text-slate-200">cascade_router_demo.py</span>
+                    </div>
+                    <span class="text-cyan-400 font-mono">↓ 9.4 KB</span>
+                  </a>
+
+                  <a href="commercial_launch/github_starter_kit/RELIABILITY_CHECKLIST.md" target="_blank" class="flex items-center justify-between p-3.5 rounded-lg bg-slate-900 hover:bg-slate-800/80 border border-slate-800 transition-colors">
+                    <div class="flex items-center gap-2.5">
+                      <span class="text-amber-400 font-bold font-mono">MD</span>
+                      <span class="text-slate-200">RELIABILITY_CHECKLIST.md</span>
+                    </div>
+                    <span class="text-amber-400 font-mono">35 Points ↗</span>
+                  </a>
+
+                  <a href="https://github.com/production-ai-systems/production-ai-starter-kit" target="_blank" rel="noopener" class="flex items-center justify-between p-3.5 rounded-lg bg-slate-900 hover:bg-slate-800/80 border border-slate-800 transition-colors">
+                    <div class="flex items-center gap-2.5">
+                      <span class="text-emerald-400 font-bold font-mono">GIT</span>
+                      <span class="text-slate-200">Public GitHub Repo</span>
+                    </div>
+                    <span class="text-emerald-400 font-mono">Star Kit ↗</span>
+                  </a>
+                </div>
+              </div>
+
+              <div class="glass-panel p-6 border-slate-800 text-xs">
+                <h4 class="font-bold text-white mb-3 flex items-center gap-2">
+                  <span>⚡</span> Architectural Boundaries
+                </h4>
+                <div class="space-y-2.5 text-slate-200 font-mono">
+                  <div class="flex justify-between py-1 border-b border-slate-800/60">
+                    <span class="text-slate-400">Tier A Timeout (Example SLA):</span>
+                    <span class="text-cyan-400">400.0 ms budget</span>
+                  </div>
+                  <div class="flex justify-between py-1 border-b border-slate-800/60">
+                    <span class="text-slate-400">Breaker Threshold (Example):</span>
+                    <span class="text-white">5 consecutive failures</span>
+                  </div>
+                  <div class="flex justify-between py-1 border-b border-slate-800/60">
+                    <span class="text-slate-400">Cooldown Window (Example):</span>
+                    <span class="text-amber-400">30 - 60 seconds</span>
+                  </div>
+                  <div class="flex justify-between py-1">
+                    <span class="text-slate-400">Failover Mode:</span>
+                    <span class="text-emerald-400">Non-blocking Cascade</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="section-divider"></div>
+
+      <!-- 7. TRANSPARENT PRICING SECTION -->
+      <div id="pricing" class="py-24 border-b border-white/5 relative overflow-hidden">
+        <div class="ambient-glow-cyan top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-25"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
+          <div class="text-center max-w-3xl mx-auto mb-16">
+            <div class="badge-cyan mb-3">TRANSPARENT VALUE PRICING</div>
+            <h2 class="text-3xl sm:text-5xl font-extrabold text-white mb-4">Invest in Verified Systems</h2>
+            <p class="text-slate-300 text-base">
+              One-time payment for the complete 21-lesson masterclass, runnable test suites, and reference solutions.
+            </p>
+          </div>
+
+          <!-- Single Primary Pricing Card -->
+          <div class="max-w-xl mx-auto mb-16">
+            <div class="glass-panel-elevated p-8 sm:p-10 border-2 border-cyan-500 shadow-[0_0_50px_rgba(6,182,212,0.22)] rounded-2xl relative">
+              <span class="absolute -top-3.5 right-8 bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 font-extrabold text-xs uppercase font-mono px-4 py-1.5 rounded-full">
+                Inaugural Launch Window
+              </span>
+
+              <div class="text-xs font-mono text-cyan-400 uppercase tracking-wider mb-2">Official Flagship Masterclass</div>
+              <h3 class="text-2xl sm:text-3xl font-bold text-white mb-2">Production AI Systems</h3>
+              <p class="text-sm text-slate-300 mb-6">Engineering Resilient Business Automations in Node.js & Python</p>
+
+              <div class="flex items-baseline gap-3 mb-6 p-4 rounded-xl bg-slate-900/80 border border-slate-800">
+                <span class="text-5xl font-extrabold text-white font-mono">€99</span>
+                <span class="text-lg text-slate-500 line-through">€149</span>
+                <span class="text-xs text-emerald-400 font-mono ml-auto font-bold uppercase">Launch Price</span>
+              </div>
+
+              <ul class="space-y-3.5 text-sm text-slate-200 mb-8 font-mono">
+                <li class="flex items-center gap-3">
+                  <span class="text-emerald-400 font-bold">✓</span>
+                  <span>Complete 21-Lesson Video Masterclass (1080p, 2.6 Hours)</span>
+                </li>
+                <li class="flex items-center gap-3">
+                  <span class="text-emerald-400 font-bold">✓</span>
+                  <span>7 Core Modules covering Ingress to Chaos Capstone</span>
+                </li>
+                <li class="flex items-center gap-3">
+                  <span class="text-emerald-400 font-bold">✓</span>
+                  <span>Dual Python 3.10+ and Node.js v22 Implementations</span>
+                </li>
+                <li class="flex items-center gap-3">
+                  <span class="text-emerald-400 font-bold">✓</span>
+                  <span>21 Student Starter Kits with Automated Test Harnesses</span>
+                </li>
+                <li class="flex items-center gap-3">
+                  <span class="text-emerald-400 font-bold">✓</span>
+                  <span>21 Complete Production Reference Solutions</span>
+                </li>
+                <li class="flex items-center gap-3">
+                  <span class="text-emerald-400 font-bold">✓</span>
+                  <span>Precision-Timed Subtitles (SRT & WebVTT) for Every Lesson</span>
+                </li>
+                <li class="flex items-center gap-3">
+                  <span class="text-emerald-400 font-bold">✓</span>
+                  <span><strong>14-Day Refund Policy</strong> (Friction-free, no questions asked)</span>
+                </li>
+                <li class="flex items-center gap-3">
+                  <span class="text-emerald-400 font-bold">✓</span>
+                  <span>Purchased-Version Access Forever + 12 Months Minor Updates & Errata</span>
+                </li>
+                <li class="flex items-center gap-3">
+                  <span class="text-emerald-400 font-bold">✓</span>
+                  <span>Single-Developer Commercial License (Internal & client pattern use)</span>
+                </li>
+              </ul>
+
+              <button onclick="openCheckout()" class="btn-primary w-full py-4 text-sm justify-center font-mono uppercase tracking-wider font-bold">
+                Enroll for €99
+              </button>
+              <p class="text-xs text-slate-400 text-center font-mono mt-3">
+                Single-Developer Commercial License &bull; €99 Launch Price &bull; €149 Standard Price
+              </p>
+            </div>
+          </div>
+
+          <!-- 14-Day Refund Policy Card -->
+          <div class="max-w-2xl mx-auto glass-panel p-8 border-cyan-500/25 text-center rounded-2xl">
+            <div class="w-12 h-12 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/35 flex items-center justify-center mx-auto mb-4 text-2xl">
+              🛡️
+            </div>
+            <h4 class="text-xl font-bold text-white mb-2">14-Day Refund Policy</h4>
+            <p class="text-sm text-slate-300 leading-relaxed max-w-lg mx-auto">
+              If the course does not meet your expectations, request a refund within 14 days of purchase. No outcome promises, no interrogation, and zero friction.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="section-divider"></div>
+
+      <!-- 8. FAQ -->
+      <div id="faq" class="py-24 border-b border-white/5 bg-[#090d16]/50">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6">
+          <div class="text-center mb-12">
+            <div class="badge-cyan mb-3">CLARITY & TRANSPARENCY</div>
+            <h2 class="text-3xl sm:text-4xl font-bold text-white mb-4">Frequently Asked Questions</h2>
+            <p class="text-slate-300 text-base">
+              Technical prerequisites, environment setup, and commercial terms.
+            </p>
+          </div>
+
+          <div id="faqContainer" class="space-y-4"></div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- VIEW 2: COURSE DETAIL / FULL SYLLABUS -->
+    <section id="view-course-detail" class="view-container hidden py-16">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6">
+        <div class="flex items-center gap-2 text-xs font-mono text-slate-400 mb-8">
+          <a href="#home" data-route="home" class="hover:text-cyan-400">Home</a>
+          <span>/</span>
+          <span class="text-cyan-400 font-semibold">Production AI Systems</span>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 mb-16">
+          <div class="lg:col-span-2">
+            <div id="detailBadge" class="badge-cyan mb-4">FLAGSHIP COURSE • PRODUCTION AI ENGINEERING</div>
+            <h1 id="detailTitle" class="text-3xl sm:text-5xl font-extrabold text-white mb-4 leading-tight">
+              Production AI Systems: Engineering Resilient Business Automations in Node.js & Python
+            </h1>
+            <p id="detailSubtitle" class="text-xl text-cyan-300 font-medium mb-4">
+              Wrap probabilistic AI models in deterministic software architecture with multi-model cascades, circuit breakers, distributed idempotency, and chaos testing.
+            </p>
+            <p id="detailTagline" class="text-base text-slate-300 mb-8 leading-relaxed font-light">
+              A code-first engineering masterclass teaching software developers how to build AI systems that survive production failures.
+            </p>
+
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 p-5 rounded-xl bg-slate-900/60 border border-slate-800 mb-8 font-mono text-xs">
+              <div>
+                <span class="text-slate-400 block">Total Duration</span>
+                <span id="detailDuration" class="text-white font-bold text-sm">2.6 Hours (156m)</span>
+              </div>
+              <div>
+                <span class="text-slate-400 block">Lessons</span>
+                <span id="detailLessons" class="text-cyan-400 font-bold text-sm">21 Master Lessons</span>
+              </div>
+              <div>
+                <span class="text-slate-400 block">Modules</span>
+                <span id="detailModulesCount" class="text-amber-400 font-bold text-sm">7 Modules</span>
+              </div>
+              <div>
+                <span class="text-slate-400 block">Implementation</span>
+                <span class="text-emerald-400 font-bold text-sm">Node.js + Python</span>
+              </div>
+            </div>
+
+            <div class="mb-12">
+              <h3 class="text-2xl font-bold text-white mb-4 flex items-center gap-2">
+                <span>🎯</span> Demonstrated Core Capabilities
+              </h3>
+              <ul id="detailOutcomes" class="space-y-3.5"></ul>
+            </div>
+
+            <!-- Capstone Spotlight -->
+            <div class="glass-panel p-6 sm:p-8 border-cyan-500/40 bg-cyan-950/10 mb-12">
+              <div class="flex items-center gap-2 text-cyan-400 text-xs font-mono font-bold uppercase mb-2">
+                <span>🏆</span> Capstone Project (Lesson 21)
+              </div>
+              <h4 class="text-xl font-bold text-white mb-2">5-Gate Resilient Automation Engine</h4>
+              <p class="text-sm text-slate-300 leading-relaxed mb-4">
+                An end-to-end production engine incorporating ingress HMAC verification, AST schema self-healing, multi-tier cascade routing, atomic SQLite WAL deduplication, and dead-letter queues. Tested under a 500-request HTTP chaos test with 50-way concurrency and automated fault injection.
+              </p>
+              <div class="flex items-center gap-3 text-xs text-emerald-400 font-mono">
+                <span>✓ Complete runnable reference code</span>
+                <span>•</span>
+                <span>✓ 5/5 assertions automated in CI</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex items-center justify-between mb-6">
+                <h3 class="text-2xl font-bold text-white flex items-center gap-2">
+                  <span>📚</span> Complete 7-Module Syllabus Breakdown
+                </h3>
+                <span class="text-xs text-slate-400 font-mono">21 Lessons • Dual Test Suites</span>
+              </div>
+              <div id="detailCurriculum"></div>
+            </div>
+          </div>
+
+          <!-- Sticky Sidebar -->
+          <div class="lg:col-span-1">
+            <div class="sticky top-28 glass-panel-elevated p-6 border-cyan-500/30">
+              <div class="text-xs text-slate-400 uppercase font-mono tracking-wider mb-2">Inaugural Launch Edition</div>
+              
+              <div class="p-5 rounded-xl border-2 border-cyan-500 bg-cyan-950/20 mb-6">
+                <div class="flex items-baseline gap-2 mb-2">
+                  <span class="text-3xl font-extrabold text-white font-mono">€99</span>
+                  <span class="text-sm text-slate-500 line-through">€149</span>
+                  <span class="text-xs text-cyan-400 font-mono font-semibold">Launch Price</span>
+                </div>
+                <p class="text-xs text-slate-300 mb-4">Complete 21-Lesson Video Masterclass & Reference Codebases</p>
+
+                <ul class="text-xs text-slate-300 space-y-2 mb-6 font-mono">
+                  <li class="flex items-center gap-1.5 text-cyan-300">✓ 21 Lessons (1080p, 2.6 Hours)</li>
+                  <li class="flex items-center gap-1.5 text-cyan-300">✓ Dual Node.js & Python Codebases</li>
+                  <li class="flex items-center gap-1.5 text-cyan-300">✓ 21 Test Harnesses & Starters</li>
+                  <li class="flex items-center gap-1.5 text-cyan-300">✓ 35-Point Reliability Field Guide</li>
+                  <li class="flex items-center gap-1.5 text-cyan-300">✓ 5-Gate Capstone Engine</li>
+                  <li class="flex items-center gap-1.5 text-cyan-300">✓ 14-Day Refund Policy</li>
+                  <li class="flex items-center gap-1.5 text-cyan-300">✓ 12 Months Minor Updates/Errata</li>
+                </ul>
+
+                <button onclick="openCheckout()" class="btn-primary w-full py-3.5 text-xs justify-center font-mono uppercase tracking-wider font-bold">
+                  Enroll for €99
+                </button>
+              </div>
+
+              <div class="p-4 rounded-lg bg-slate-900/80 border border-slate-800 text-xs text-slate-300 space-y-2">
+                <div class="flex items-center gap-2 text-white font-semibold">
+                  <span>🛡️</span>
+                  <span>14-Day Refund Policy</span>
+                </div>
+                <p class="text-xs leading-relaxed text-slate-400">
+                  If the course does not meet your expectations, request a refund within 14 days of purchase. No outcome promises, no friction.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-white/5 bg-[#05070a] py-12 text-xs font-mono text-slate-400">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-3">
+        <div class="w-7 h-7 rounded-md bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold">
+          ⚡
+        </div>
+        <div>
+          <span class="text-slate-200 font-bold block">RUNTIMEPILOT</span>
+          <span class="text-xs text-slate-400">Production AI Engineering • Built with Node.js & Python Standard Libraries</span>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-6">
+        <a href="#home" data-route="home" class="hover:text-cyan-400 transition-colors">Overview</a>
+        <a href="#story-section" class="hover:text-cyan-400 transition-colors">System Story</a>
+        <a href="#pipeline-section" class="hover:text-cyan-400 transition-colors">Roadmap</a>
+        <a href="#terminal-section" class="hover:text-cyan-400 transition-colors">Terminal</a>
+        <a href="#lesson-preview" data-route="lesson-preview" class="hover:text-cyan-400 transition-colors">Free Lesson</a>
+        <a href="#pricing" data-route="pricing" class="hover:text-cyan-400 transition-colors">Pricing</a>
+        <a href="#faq" data-route="faq" class="hover:text-cyan-400 transition-colors">FAQ</a>
+      </div>
+
+      <div class="text-slate-400 text-right">
+        <span>RuntimePilot © 2026</span><br>
+        <span class="text-cyan-400 font-semibold">STATUS: READY_FOR_OWNER_DEPLOYMENT</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- CHECKOUT MODAL DRAWER (DUAL INTEGRATION PREP) -->
+  <div id="checkoutModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="checkoutModalTitle">
+    <div class="modal-content p-6 sm:p-8">
+      
+      <!-- Modal Header -->
+      <div class="flex items-center justify-between pb-4 mb-4 border-b border-white/10">
+        <div class="flex items-center gap-2">
+          <div class="w-6 h-6 rounded bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-xs font-bold font-mono">
+            ⚡
+          </div>
+          <h2 id="checkoutModalTitle" class="font-bold text-white text-sm font-mono uppercase tracking-wider">RuntimePilot Checkout</h2>
+        </div>
+        <button onclick="closeCheckout()" class="text-slate-400 hover:text-white text-lg p-1" aria-label="Close Checkout Drawer">✕</button>
+      </div>
+
+      <!-- Provider Selection Switcher Tabs -->
+      <div class="flex items-center justify-between pb-4 mb-4 border-b border-white/5 gap-3">
+        <span class="text-[11px] font-mono text-slate-400 uppercase tracking-wider">PROVIDER:</span>
+        <div class="flex gap-2">
+          <button id="providerTabPayhip" onclick="setCheckoutProvider('payhip')" class="provider-toggle-btn active">
+            Option A: Payhip
+          </button>
+          <button id="providerTabLemon" onclick="setCheckoutProvider('lemonsqueezy')" class="provider-toggle-btn">
+            Option B: Lemon Squeezy
+          </button>
+        </div>
+      </div>
+
+      <!-- STATE 1: CHECKOUT INITIATION FORM -->
+      <div id="checkoutStateForm" class="checkout-state-card space-y-5">
+        <div>
+          <span class="text-[11px] text-slate-400 block uppercase font-mono">Selected Masterclass</span>
+          <h3 class="text-lg font-bold text-white">Production AI Systems (Launch Edition)</h3>
+          <p class="text-xs text-slate-300 mt-0.5 font-light">Engineering Resilient Business Automations in Node.js & Python</p>
+        </div>
+
+        <!-- Pricing Summary Box -->
+        <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-2 text-xs font-mono">
+          <div class="flex justify-between text-slate-400">
+            <span>Standard Price:</span>
+            <span class="text-slate-500 line-through">€149.00</span>
+          </div>
+          <div class="flex justify-between text-emerald-400 font-bold">
+            <span>Inaugural Launch Discount:</span>
+            <span>-€50.00 (33% OFF)</span>
+          </div>
+          <div class="flex justify-between text-slate-200 text-base font-bold pt-2 border-t border-slate-800">
+            <span>Total Investment:</span>
+            <span class="text-cyan-400 font-mono">€99.00</span>
+          </div>
+        </div>
+
+        <!-- Dynamic Provider Feature Badge & Notice -->
+        <div id="providerDetailBox" class="p-4 rounded-xl bg-slate-900/90 border border-cyan-500/30 text-xs space-y-2">
+          <div class="flex items-center justify-between">
+            <span id="providerBadge" class="badge-cyan text-[10px]">PAYHIP DIRECT COURSE LMS</span>
+            <span id="providerTaxNote" class="text-slate-400 font-mono text-[11px]">Payhip auto-remits EU & UK VAT</span>
+          </div>
+          <p id="providerDesc" class="text-slate-300 leading-relaxed text-xs">
+            Turnkey digital course player. Instant access upon purchase with student account creation, adaptive 1080p video streaming, and direct code downloads.
+          </p>
+          <div class="pt-2 border-t border-white/5 font-mono text-[11px] text-slate-400 flex items-center justify-between">
+            <span>Endpoint:</span>
+            <code id="providerPlaceholderUrl" class="text-cyan-300">PAYHIP_CHECKOUT_URL</code>
+          </div>
+        </div>
+
+        <!-- Interactive Simulation Actions -->
+        <div class="space-y-2.5 pt-1">
+          <button id="submitPayBtn" onclick="simulateSuccess()" class="btn-primary w-full py-3.5 text-xs justify-center font-mono uppercase tracking-wider font-bold">
+            ⚡ Simulate Successful Purchase (€99)
+          </button>
+          <div class="grid grid-cols-2 gap-2">
+            <button onclick="simulateCancel()" class="btn-secondary py-2.5 px-3 text-xs font-mono justify-center text-slate-400 hover:text-rose-300">
+              Simulate Cancel
+            </button>
+            <button onclick="openExternalPlaceholder()" class="btn-secondary py-2.5 px-3 text-xs font-mono justify-center text-cyan-400">
+              Open Real URL ↗
+            </button>
+          </div>
+        </div>
+
+        <p class="text-[11px] text-slate-400 text-center font-mono">
+          Single-Developer Commercial License &bull; 14-Day Refund Policy &bull; Test Mode
+        </p>
+      </div>
+
+      <!-- STATE 2: PURCHASE-CONFIRMED MOCK -->
+      <div id="checkoutStateSuccess" class="checkout-state-card hidden space-y-5">
+        <div class="p-4 rounded-xl bg-emerald-950/30 border border-emerald-500/40 text-center">
+          <div class="w-10 h-10 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/50 flex items-center justify-center mx-auto mb-2 text-lg font-bold">
+            ✓
+          </div>
+          <span class="text-[11px] font-mono text-emerald-400 uppercase font-bold tracking-wider block">PAYMENT CONFIRMED • DEMO TRANSACTION</span>
+          <h3 class="text-xl font-bold text-white mt-1">Welcome to Production AI Systems</h3>
+          <p class="text-xs text-slate-300 mt-1">Order Ref: <span id="confirmedOrderRef" class="font-mono text-cyan-300 font-bold">#RP-94821</span> &bull; €99.00 EUR</p>
+        </div>
+
+        <div id="confirmedDeliveryCard" class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 text-xs space-y-3 font-mono">
+          <!-- Dynamically populated per provider -->
+        </div>
+
+        <div class="space-y-2">
+          <button onclick="resetCheckoutForm()" class="btn-secondary w-full py-3 text-xs justify-center font-mono uppercase tracking-wider">
+            ← Test Another Scenario / Provider
+          </button>
+          <button onclick="closeCheckout()" class="btn-primary w-full py-3 text-xs justify-center font-mono uppercase tracking-wider font-bold">
+            Back to Storefront
+          </button>
+        </div>
+      </div>
+
+      <!-- STATE 3: CANCEL STATE MOCK -->
+      <div id="checkoutStateCancel" class="checkout-state-card hidden space-y-5">
+        <div class="p-4 rounded-xl bg-amber-950/30 border border-amber-500/40 text-center">
+          <div class="w-10 h-10 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/50 flex items-center justify-center mx-auto mb-2 text-lg font-bold">
+            ⚠️
+          </div>
+          <span class="text-[11px] font-mono text-amber-400 uppercase font-bold tracking-wider block">CHECKOUT CANCELLED</span>
+          <h3 class="text-xl font-bold text-white mt-1">No Charges Were Processed</h3>
+          <p class="text-xs text-slate-300 mt-1">You closed or abandoned the checkout drawer before completion.</p>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 text-xs text-slate-300 space-y-2">
+          <p class="leading-relaxed">
+            Your payment card, Apple Pay, or PayPal account was <strong>not charged</strong>. The inaugural launch discount of <strong>€99</strong> (€50 off standard price) remains available whenever you are ready.
+          </p>
+          <ul class="text-[11px] text-slate-400 font-mono space-y-1 pt-1">
+            <li>✓ 14-Day Refund Policy applies upon enrollment</li>
+            <li>✓ Full access to 21 lessons, dual codebases, and chaos test harness</li>
+          </ul>
+        </div>
+
+        <div class="space-y-2">
+          <button onclick="resetCheckoutForm()" class="btn-primary w-full py-3.5 text-xs justify-center font-mono uppercase tracking-wider font-bold">
+            Re-Open Checkout (€99)
+          </button>
+          <button onclick="closeCheckout()" class="btn-secondary w-full py-2.5 text-xs justify-center font-mono">
+            Return to Storefront
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="data/courses.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
