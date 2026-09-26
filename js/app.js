@@ -979,7 +979,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // =========================================================================
   // 10. DUAL CHECKOUT ENGINE (PAYHIP CANONICAL LAUNCH)
   // =========================================================================
-  window.PAYHIP_CHECKOUT_URL = "https://payhip.com/b/yXIZY";
+  window.PAYHIP_CHECKOUT_URL = "https://payhip.com/order?link=yXIZY&pricing_plan=N9G84L8RGV";
 
   const urlParams = new URLSearchParams(window.location.search);
   const initialProviderParam = (urlParams.get("provider") || "payhip").toLowerCase();
@@ -991,7 +991,7 @@ document.addEventListener("DOMContentLoaded", () => {
       badge: "PAYHIP DIRECT COURSE LMS",
       taxNote: "Payhip auto-remits EU & UK VAT",
       productId: "yXIZY",
-      checkoutUrl: window.PAYHIP_CHECKOUT_URL || "https://payhip.com/b/yXIZY",
+      checkoutUrl: window.PAYHIP_CHECKOUT_URL,
       description: "Turnkey digital course player. Instant access upon purchase with student account creation, adaptive 1080p video streaming, and direct code downloads.",
       deliveryDetailsHtml: `
         <div class="flex justify-between text-slate-400">
@@ -1076,7 +1076,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   window.openCheckout = function(stateOverride) {
-    if (window.PAYHIP_CHECKOUT_URL && window.PAYHIP_CHECKOUT_URL.startsWith("https://payhip.com/b/")) {
+    if (window.PAYHIP_CHECKOUT_URL && window.PAYHIP_CHECKOUT_URL.startsWith("https://payhip.com/")) {
       window.location.href = window.PAYHIP_CHECKOUT_URL;
       return;
     }
